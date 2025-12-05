@@ -11,12 +11,15 @@ from uuid import UUID
 from app.config import settings
 from app.services.post_repository import post_repository
 from app.services.category_repository import category_repository
+from app.services.project_repository import project_repository
+
 from app.models import (
     PostResponse, 
     PostListResponse, 
     PostCreate, 
     PostUpdate,
     CategoryResponse,
+    ProjectResponse,
 )
 
 
@@ -153,3 +156,13 @@ def delete_post(post_id: UUID):
         raise HTTPException(status_code=404, detail="Post not found")
     
     return None
+
+# ============================================
+# Projects API Endpoints (Portfolio)
+# ============================================
+
+@app.get("/api/projects", response_model=List[ProjectResponse])
+def get_projects():
+    """Lấy tất cả projects cho portfolio."""
+    projects = project_repository.get_all()
+    return projects

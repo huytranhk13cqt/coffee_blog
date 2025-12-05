@@ -1,17 +1,10 @@
-/**
- * globals.css
- * ===========
- * Global styles và CSS reset.
- * Pixel art aesthetic với minimalist approach.
- */
-
 /* ============================================
-   CSS Variables (sẽ expand trong variables.css)
+   CSS Variables
    ============================================ */
 :root {
-  /* Colors - Neutral & Soft palette */
+  /* Colors - Light Mode (Default) */
   --color-bg: #fafafa;
-  --color-bg-secondary: #f5f5f5;
+  --color-bg-secondary: #f0f0f0;
   --color-text: #333333;
   --color-text-secondary: #666666;
   --color-border: #e0e0e0;
@@ -34,17 +27,41 @@
   --radius-sm: 4px;
   --radius-md: 8px;
   --radius-lg: 12px;
+
+  /* Shadows */
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.1);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.1);
+
+  /* Transitions */
+  --transition-fast: 0.15s ease;
+  --transition-normal: 0.3s ease;
 }
 
-/* Dark mode variables (sẽ implement sau) */
+/* Dark Mode Variables */
 [data-theme="dark"] {
-  --color-bg: #1a1a1a;
-  --color-bg-secondary: #2d2d2d;
-  --color-text: #e0e0e0;
+  --color-bg: #1a1a2e;
+  --color-bg-secondary: #16213e;
+  --color-text: #e8e8e8;
   --color-text-secondary: #a0a0a0;
-  --color-border: #404040;
+  --color-border: #2a2a4a;
+  --color-primary: #7c8ce0;
+  --color-primary-hover: #9aa5eb;
+
+  /* Shadows - darker for dark mode */
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
 
+/* Smooth transition when theme changes */
+html {
+  transition: background-color var(--transition-normal),
+    color var(--transition-normal);
+}
+
+* {
+  transition: background-color var(--transition-fast),
+    border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
 /* ============================================
      CSS Reset
      ============================================ */
@@ -833,5 +850,273 @@ a.post-detail__category:hover {
   .header__nav {
     flex-wrap: wrap;
     justify-content: center;
+  }
+}
+
+/* ============================================
+   Portfolio Page
+   ============================================ */
+.portfolio-page {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.portfolio-page__header {
+  text-align: center;
+  margin-bottom: var(--spacing-xl);
+}
+
+.portfolio-page__title {
+  font-size: 2rem;
+  margin-bottom: var(--spacing-sm);
+}
+
+.portfolio-page__subtitle {
+  color: var(--color-text-secondary);
+  max-width: 600px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+.portfolio-page__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: var(--spacing-lg);
+}
+
+.portfolio-page__empty {
+  text-align: center;
+  padding: var(--spacing-xl);
+  color: var(--color-text-secondary);
+}
+
+.portfolio-page__footer {
+  margin-top: var(--spacing-xl);
+  padding-top: var(--spacing-lg);
+  border-top: 1px solid var(--color-border);
+  text-align: center;
+  color: var(--color-text-secondary);
+}
+
+/* ============================================
+     Project Card
+     ============================================ */
+.project-card {
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  transition: all 0.2s;
+  display: flex;
+  flex-direction: column;
+}
+
+.project-card:hover {
+  border-color: var(--color-primary);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transform: translateY(-4px);
+}
+
+.project-card__thumbnail {
+  height: 160px;
+  background: var(--color-bg-secondary);
+  overflow: hidden;
+}
+
+.project-card__thumbnail img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.project-card__thumbnail-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 3rem;
+  background: linear-gradient(
+    135deg,
+    var(--color-bg-secondary) 0%,
+    var(--color-border) 100%
+  );
+}
+
+.project-card__content {
+  padding: var(--spacing-md);
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.project-card__title {
+  font-size: 1.25rem;
+  margin-bottom: var(--spacing-sm);
+  color: var(--color-text);
+}
+
+.project-card__description {
+  color: var(--color-text-secondary);
+  font-size: 0.9rem;
+  line-height: 1.6;
+  margin-bottom: var(--spacing-md);
+  flex: 1;
+}
+
+.project-card__tech-stack {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-xs);
+  margin-bottom: var(--spacing-md);
+}
+
+.project-card__tech-badge {
+  background: var(--color-bg-secondary);
+  color: var(--color-text-secondary);
+  padding: 2px 8px;
+  border-radius: var(--radius-sm);
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.project-card__links {
+  display: flex;
+  gap: var(--spacing-sm);
+  margin-top: auto;
+}
+
+.project-card__link {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 6px 12px;
+  border-radius: var(--radius-sm);
+  font-size: 0.875rem;
+  font-weight: 500;
+  text-decoration: none;
+  transition: all 0.2s;
+}
+
+.project-card__link--demo {
+  background: var(--color-primary);
+  color: white;
+}
+
+.project-card__link--demo:hover {
+  background: var(--color-primary-hover);
+  color: white;
+}
+
+.project-card__link--github {
+  background: var(--color-bg-secondary);
+  color: var(--color-text);
+  border: 1px solid var(--color-border);
+}
+
+.project-card__link--github:hover {
+  background: var(--color-border);
+}
+
+/* ============================================
+     Responsive - Portfolio
+     ============================================ */
+@media (max-width: 600px) {
+  .portfolio-page__grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ============================================
+   Header - Updated for Theme Toggle
+   ============================================ */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--spacing-md) var(--spacing-lg);
+  border-bottom: 1px solid var(--color-border);
+  background: var(--color-bg);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.header__logo a {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--color-text);
+  text-decoration: none;
+}
+
+.header__right {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+}
+
+.header__nav {
+  display: flex;
+  gap: var(--spacing-md);
+}
+
+.header__nav a {
+  color: var(--color-text-secondary);
+  text-decoration: none;
+  transition: color var(--transition-fast);
+}
+
+.header__nav a:hover {
+  color: var(--color-primary);
+}
+
+/* ============================================
+     Theme Toggle Button
+     ============================================ */
+.theme-toggle {
+  background: var(--color-bg-secondary);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--spacing-sm) var(--spacing-md);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--transition-fast);
+}
+
+.theme-toggle:hover {
+  background: var(--color-border);
+  transform: scale(1.05);
+}
+
+.theme-toggle:active {
+  transform: scale(0.95);
+}
+
+.theme-toggle__icon {
+  font-size: 1.25rem;
+  line-height: 1;
+}
+
+/* ============================================
+     Responsive - Header
+     ============================================ */
+@media (max-width: 768px) {
+  .header {
+    flex-direction: column;
+    gap: var(--spacing-md);
+    padding: var(--spacing-md);
+  }
+
+  .header__right {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .header__nav {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: var(--spacing-sm);
   }
 }

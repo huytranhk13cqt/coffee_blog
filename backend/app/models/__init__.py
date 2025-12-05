@@ -1,10 +1,7 @@
 """
 models/__init__.py
 ==================
-Export tất cả models để import dễ dàng hơn.
-
-Thay vì: from app.models.post import PostResponse
-Có thể: from app.models import PostResponse
+Export tất cả models.
 """
 
 from app.models.post import (
@@ -23,6 +20,10 @@ from app.models.tag import (
     TagResponse,
     TagCreate,
 )
+from app.models.project import (
+    ProjectResponse,
+    ProjectCreate,
+)
 
 __all__ = [
     # Post models
@@ -38,4 +39,7 @@ __all__ = [
     # Tag models
     "TagResponse",
     "TagCreate",
+    # Project models
+    "ProjectResponse",
+    "ProjectCreate",
 ]

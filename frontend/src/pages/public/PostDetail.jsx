@@ -8,12 +8,16 @@ import { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import ReactMarkdown from "react-markdown";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
-import { oneDark } from "react-syntax-highlighter/dist/esm/styles/prism";
+import {
+  oneDark,
+  oneLight,
+} from "react-syntax-highlighter/dist/esm/styles/prism";
 import { getPostBySlug } from "../../services/postService";
+import { useTheme } from "../../contexts/ThemeContext";
 
 function PostDetail() {
-  // Lấy slug từ URL (ví dụ: /post/welcome-to-my-blog → slug = "welcome-to-my-blog")
   const { slug } = useParams();
+  const { isDark } = useTheme();
 
   // States
   const [post, setPost] = useState(null);
@@ -30,7 +34,6 @@ function PostDetail() {
         const data = await getPostBySlug(slug);
         setPost(data);
 
-        // Update document title
         document.title = `${data.title} | Coffee's Blog`;
       } catch (err) {
         console.error("Failed to fetch post:", err);
@@ -42,7 +45,6 @@ function PostDetail() {
 
     fetchPost();
 
-    // Cleanup: reset title khi leave page
     return () => {
       document.title = "Coffee's Blog";
     };
@@ -93,7 +95,6 @@ function PostDetail() {
       {/* Post Header */}
       <header className="post-detail__header">
         {/* Category */}
-        {/* Category - Now clickable! */}
         {post.categories && (
           <Link
             to={`/category/${post.categories.slug}`}
@@ -130,15 +131,13 @@ function PostDetail() {
       <div className="post-detail__content">
         <ReactMarkdown
           components={{
-            // Custom renderer cho code blocks
             code({ node, inline, className, children, ...props }) {
               const match = /language-(\w+)/.exec(className || "");
 
-              // Nếu là code block (có language), dùng syntax highlighter
               if (!inline && match) {
                 return (
                   <SyntaxHighlighter
-                    style={oneDark}
+                    style={isDark ? oneDark : oneLight}
                     language={match[1]}
                     PreTag="div"
                     {...props}
@@ -148,7 +147,6 @@ function PostDetail() {
                 );
               }
 
-              // Nếu là inline code, render bình thường
               return (
                 <code className={className} {...props}>
                   {children}
