@@ -2,33 +2,37 @@
  * ThemeToggle.css
  * ================
  * Styles for Coffee-themed toggle button.
+ * Sized 50% larger for better visibility.
  */
 
 /* ============================================
-   Toggle Button Container
+   Toggle Button Container - 50% larger
    ============================================ */
 .coffee-toggle {
   position: relative;
-  width: 80px;
-  height: 40px;
-  border-radius: 20px;
+  width: 84px;
+  height: 42px;
+  border-radius: 21px;
   padding: 4px;
   cursor: pointer;
-  border: none;
+  border: 2px solid rgba(0, 0, 0, 0.1);
   display: flex;
   align-items: center;
   overflow: hidden;
-  transition: background-color 0.3s ease;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
 }
 
 .coffee-toggle--light {
-  background: linear-gradient(135deg, #92400e 0%, #b45309 100%);
+  background: linear-gradient(135deg, #a0826d 0%, #c4a68a 100%);
   justify-content: flex-start;
+  border-color: #8b7355;
 }
 
 .coffee-toggle--dark {
   background: linear-gradient(135deg, #374151 0%, #4b5563 100%);
   justify-content: flex-end;
+  border-color: #4b5563;
 }
 
 /* ============================================
@@ -37,7 +41,7 @@
 .coffee-toggle__bg {
   position: absolute;
   inset: 0;
-  border-radius: 20px;
+  border-radius: 21px;
   overflow: hidden;
   pointer-events: none;
 }
@@ -47,7 +51,7 @@
   inset: 0;
 }
 
-/* Light mode decorations (coffee beans vibe) */
+/* Light mode decorations */
 .coffee-toggle__bg-decor--light .decor-circle {
   position: absolute;
   border-radius: 50%;
@@ -55,37 +59,37 @@
 }
 
 .coffee-toggle__bg-decor--light .decor-circle--1 {
-  width: 12px;
-  height: 12px;
+  width: 10px;
+  height: 10px;
   top: 4px;
   right: 8px;
 }
 
 .coffee-toggle__bg-decor--light .decor-circle--2 {
-  width: 8px;
-  height: 8px;
+  width: 7px;
+  height: 7px;
   top: 14px;
-  right: 20px;
+  right: 18px;
 }
 
 .coffee-toggle__bg-decor--light .decor-line {
   position: absolute;
   border-radius: 4px;
-  background: rgba(139, 69, 19, 0.3);
+  background: rgba(139, 69, 19, 0.2);
 }
 
 .coffee-toggle__bg-decor--light .decor-line--1 {
-  width: 16px;
+  width: 14px;
   height: 3px;
-  bottom: 10px;
-  right: 14px;
+  bottom: 8px;
+  right: 12px;
 }
 
 .coffee-toggle__bg-decor--light .decor-line--2 {
-  width: 24px;
+  width: 20px;
   height: 2px;
-  top: 20px;
-  left: 40px;
+  top: 18px;
+  left: 36px;
 }
 
 /* Dark mode decorations (stars) */
@@ -99,21 +103,21 @@
 
 .coffee-toggle__bg-decor--dark .decor-star--1 {
   top: 8px;
-  left: 12px;
+  left: 10px;
   animation: twinkle 2s ease-in-out infinite;
 }
 
 .coffee-toggle__bg-decor--dark .decor-star--2 {
-  top: 18px;
-  left: 24px;
+  top: 16px;
+  left: 20px;
   width: 3px;
   height: 3px;
   animation: twinkle 2s ease-in-out infinite 0.5s;
 }
 
 .coffee-toggle__bg-decor--dark .decor-star--3 {
-  bottom: 10px;
-  left: 10px;
+  bottom: 8px;
+  left: 8px;
   width: 3px;
   height: 3px;
   animation: twinkle 2s ease-in-out infinite 1s;
@@ -132,19 +136,19 @@
 }
 
 /* ============================================
-     Toggle Knob (Cup/Glass container)
+     Toggle Knob - 50% larger
      ============================================ */
 .coffee-toggle__knob {
   position: relative;
   z-index: 10;
-  width: 32px;
-  height: 32px;
+  width: 34px;
+  height: 34px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(255, 255, 255, 0.1);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  background: rgba(255, 255, 255, 0.15);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
 }
 
 /* ============================================
@@ -168,10 +172,11 @@
      ============================================ */
 .coffee-toggle:hover {
   transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 .coffee-toggle:hover .coffee-toggle__knob {
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
 }
 
 .coffee-toggle:active {
@@ -183,9 +188,9 @@
      ============================================ */
 .coffee-toggle:focus {
   outline: none;
-  box-shadow: 0 0 0 3px rgba(92, 107, 192, 0.5);
+  box-shadow: 0 0 0 3px var(--color-primary);
 }
 
 .coffee-toggle:focus-visible {
-  box-shadow: 0 0 0 3px rgba(92, 107, 192, 0.5);
+  box-shadow: 0 0 0 3px var(--color-primary);
 }

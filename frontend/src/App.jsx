@@ -31,6 +31,7 @@ function App() {
                 <Link to="/contact">Contact</Link>
                 <Link to="/portfolio">Portfolio</Link>
               </nav>
+              <div className="header__divider"></div>
               <ThemeToggle />
             </div>
           </header>
