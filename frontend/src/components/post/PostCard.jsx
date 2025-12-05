@@ -7,7 +7,7 @@
 import { Link } from "react-router-dom";
 
 function PostCard({ post }) {
-  // Format date để hiển thị đẹp hơn
+  // Format date
   const formatDate = (dateString) => {
     const date = new Date(dateString);
     return date.toLocaleDateString("en-US", {
@@ -19,18 +19,25 @@ function PostCard({ post }) {
 
   return (
     <article className="post-card">
-      {/* Cover Image (nếu có) */}
+      {/* Cover Image */}
       {post.cover_image_url && (
         <div className="post-card__image">
-          <img src={post.cover_image_url} alt={post.title} />
+          <Link to={`/post/${post.slug}`}>
+            <img src={post.cover_image_url} alt={post.title} />
+          </Link>
         </div>
       )}
 
       {/* Content */}
       <div className="post-card__content">
-        {/* Category Badge */}
+        {/* Category Badge - Now clickable! */}
         {post.categories && (
-          <span className="post-card__category">{post.categories.name}</span>
+          <Link
+            to={`/category/${post.categories.slug}`}
+            className="post-card__category"
+          >
+            {post.categories.name}
+          </Link>
         )}
 
         {/* Title */}

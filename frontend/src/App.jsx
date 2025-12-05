@@ -6,6 +6,8 @@
 
 import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 import Home from "./pages/public/Home";
+import PostDetail from "./pages/public/PostDetail";
+import Category from "./pages/public/Category";
 
 function App() {
   return (
@@ -28,6 +30,8 @@ function App() {
         <main className="main">
           <Routes>
             <Route path="/" element={<Home />} />
+            <Route path="/post/:slug" element={<PostDetail />} />
+            <Route path="/category/:slug" element={<Category />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </main>
@@ -43,7 +47,7 @@ function App() {
 
 function NotFound() {
   return (
-    <div>
+    <div className="not-found">
       <h2>404 - Page Not Found</h2>
       <p>The page you're looking for doesn't exist.</p>
       <Link to="/">← Go back home</Link>

@@ -5,12 +5,19 @@ Coffee's Personal Blog - Backend API
 
 from fastapi import FastAPI, HTTPException, Query
 from fastapi.middleware.cors import CORSMiddleware
-from typing import Optional
+from typing import Optional, List
 from uuid import UUID
 
 from app.config import settings
 from app.services.post_repository import post_repository
-from app.models import PostResponse, PostListResponse, PostCreate, PostUpdate
+from app.services.category_repository import category_repository
+from app.models import (
+    PostResponse, 
+    PostListResponse, 
+    PostCreate, 
+    PostUpdate,
+    CategoryResponse,
+)
 
 
 # Create FastAPI app
@@ -52,6 +59,28 @@ def health_check():
 
 
 # ============================================
+# Categories API Endpoints
+# ============================================
+
+@app.get("/api/categories", response_model=List[CategoryResponse])
+def get_categories():
+    """Lấy tất cả categories."""
+    categories = category_repository.get_all()
+    return categories
+
+
+@app.get("/api/categories/{slug}", response_model=CategoryResponse)
+def get_category_by_slug(slug: str):
+    """Lấy một category theo slug."""
+    category = category_repository.get_by_slug(slug)
+    
+    if not category:
+        raise HTTPException(status_code=404, detail="Category not found")
+    
+    return category
+
+
+# ============================================
 # Posts API Endpoints
 # ============================================
 
@@ -84,9 +113,7 @@ def get_posts(
 
 @app.get("/api/posts/{slug}")
 def get_post_by_slug(slug: str):
-    """
-    Lấy một post theo slug.
-    """
+    """Lấy một post theo slug."""
     post = post_repository.get_by_slug(slug)
     
     if not post:
@@ -97,10 +124,7 @@ def get_post_by_slug(slug: str):
 
 @app.post("/api/posts", status_code=201)
 def create_post(post_data: PostCreate):
-    """
-    Tạo post mới.
-    """
-    # TODO: Add authentication check here
+    """Tạo post mới."""
     post = post_repository.create(post_data)
     
     if not post:
@@ -111,10 +135,7 @@ def create_post(post_data: PostCreate):
 
 @app.put("/api/posts/{post_id}")
 def update_post(post_id: UUID, post_data: PostUpdate):
-    """
-    Cập nhật post.
-    """
-    # TODO: Add authentication check here
+    """Cập nhật post."""
     post = post_repository.update(post_id, post_data)
     
     if not post:
@@ -125,10 +146,7 @@ def update_post(post_id: UUID, post_data: PostUpdate):
 
 @app.delete("/api/posts/{post_id}", status_code=204)
 def delete_post(post_id: UUID):
-    """
-    Xóa post.
-    """
-    # TODO: Add authentication check here
+    """Xóa post."""
     success = post_repository.delete(post_id)
     
     if not success:

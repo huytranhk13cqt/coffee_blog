@@ -28,7 +28,6 @@ class PostRepository:
     # ============================================
     # READ Operations
     # ============================================
-    
     def get_all_published(
         self,
         page: int = 1,
@@ -46,23 +45,39 @@ class PostRepository:
         Returns:
             Tuple của (list posts, total count)
         """
-        # Build query
-        query = supabase.table(self.TABLE_NAME).select(
-            "*, categories(name, slug)",
-            count="exact"  # Để lấy total count
-        ).eq("status", "published")
-        
-        # Filter by category if provided
-        if category_slug:
-            # Join với categories table để filter
-            query = query.eq("categories.slug", category_slug)
-        
-        # Order và pagination
+        # Calculate offset
         offset = (page - 1) * per_page
-        query = query.order("published_at", desc=True).range(offset, offset + per_page - 1)
         
-        # Execute
-        response = query.execute()
+        # Nếu có category filter
+        if category_slug:
+            # Đầu tiên, lấy category_id từ slug
+            from app.services.category_repository import category_repository
+            category = category_repository.get_by_slug(category_slug)
+            
+            if not category:
+                return [], 0
+            
+            # Query với category_id
+            response = supabase.table(self.TABLE_NAME).select(
+                "*, categories(name, slug)",
+                count="exact"
+            ).eq(
+                "status", "published"
+            ).eq(
+                "category_id", category["id"]
+            ).order(
+                "published_at", desc=True
+            ).range(offset, offset + per_page - 1).execute()
+        else:
+            # Query tất cả published posts
+            response = supabase.table(self.TABLE_NAME).select(
+                "*, categories(name, slug)",
+                count="exact"
+            ).eq(
+                "status", "published"
+            ).order(
+                "published_at", desc=True
+            ).range(offset, offset + per_page - 1).execute()
         
         return response.data, response.count or 0
     
