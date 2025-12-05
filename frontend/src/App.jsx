@@ -46,7 +46,7 @@ function App() {
             marginTop: "40px",
           }}
         >
-          <p>© 2025 Coffee's Blog. Built with React + FastAPI + Supabase</p>
+          <p>© 2024 Coffee's Blog. Built with React + FastAPI + Supabase</p>
         </footer>
       </div>
     </BrowserRouter>
