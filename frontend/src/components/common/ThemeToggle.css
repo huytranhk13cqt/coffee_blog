@@ -1,0 +1,191 @@
+/**
+ * ThemeToggle.css
+ * ================
+ * Styles for Coffee-themed toggle button.
+ */
+
+/* ============================================
+   Toggle Button Container
+   ============================================ */
+.coffee-toggle {
+  position: relative;
+  width: 80px;
+  height: 40px;
+  border-radius: 20px;
+  padding: 4px;
+  cursor: pointer;
+  border: none;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  transition: background-color 0.3s ease;
+}
+
+.coffee-toggle--light {
+  background: linear-gradient(135deg, #92400e 0%, #b45309 100%);
+  justify-content: flex-start;
+}
+
+.coffee-toggle--dark {
+  background: linear-gradient(135deg, #374151 0%, #4b5563 100%);
+  justify-content: flex-end;
+}
+
+/* ============================================
+     Background Decorations
+     ============================================ */
+.coffee-toggle__bg {
+  position: absolute;
+  inset: 0;
+  border-radius: 20px;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.coffee-toggle__bg-decor {
+  position: absolute;
+  inset: 0;
+}
+
+/* Light mode decorations (coffee beans vibe) */
+.coffee-toggle__bg-decor--light .decor-circle {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.coffee-toggle__bg-decor--light .decor-circle--1 {
+  width: 12px;
+  height: 12px;
+  top: 4px;
+  right: 8px;
+}
+
+.coffee-toggle__bg-decor--light .decor-circle--2 {
+  width: 8px;
+  height: 8px;
+  top: 14px;
+  right: 20px;
+}
+
+.coffee-toggle__bg-decor--light .decor-line {
+  position: absolute;
+  border-radius: 4px;
+  background: rgba(139, 69, 19, 0.3);
+}
+
+.coffee-toggle__bg-decor--light .decor-line--1 {
+  width: 16px;
+  height: 3px;
+  bottom: 10px;
+  right: 14px;
+}
+
+.coffee-toggle__bg-decor--light .decor-line--2 {
+  width: 24px;
+  height: 2px;
+  top: 20px;
+  left: 40px;
+}
+
+/* Dark mode decorations (stars) */
+.coffee-toggle__bg-decor--dark .decor-star {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.5);
+}
+
+.coffee-toggle__bg-decor--dark .decor-star--1 {
+  top: 8px;
+  left: 12px;
+  animation: twinkle 2s ease-in-out infinite;
+}
+
+.coffee-toggle__bg-decor--dark .decor-star--2 {
+  top: 18px;
+  left: 24px;
+  width: 3px;
+  height: 3px;
+  animation: twinkle 2s ease-in-out infinite 0.5s;
+}
+
+.coffee-toggle__bg-decor--dark .decor-star--3 {
+  bottom: 10px;
+  left: 10px;
+  width: 3px;
+  height: 3px;
+  animation: twinkle 2s ease-in-out infinite 1s;
+}
+
+@keyframes twinkle {
+  0%,
+  100% {
+    opacity: 0.3;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.8;
+    transform: scale(1.2);
+  }
+}
+
+/* ============================================
+     Toggle Knob (Cup/Glass container)
+     ============================================ */
+.coffee-toggle__knob {
+  position: relative;
+  z-index: 10;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.1);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* ============================================
+     Cup/Glass SVG Container
+     ============================================ */
+.cup-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cup-svg {
+  width: 100%;
+  height: 100%;
+}
+
+/* ============================================
+     Hover & Active States
+     ============================================ */
+.coffee-toggle:hover {
+  transform: scale(1.05);
+}
+
+.coffee-toggle:hover .coffee-toggle__knob {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.coffee-toggle:active {
+  transform: scale(0.98);
+}
+
+/* ============================================
+     Focus State (Accessibility)
+     ============================================ */
+.coffee-toggle:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(92, 107, 192, 0.5);
+}
+
+.coffee-toggle:focus-visible {
+  box-shadow: 0 0 0 3px rgba(92, 107, 192, 0.5);
+}

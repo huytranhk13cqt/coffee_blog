@@ -1028,7 +1028,7 @@ a.post-detail__category:hover {
 }
 
 /* ============================================
-   Header - Updated for Theme Toggle
+   Header
    ============================================ */
 .header {
   display: flex;
@@ -1068,35 +1068,6 @@ a.post-detail__category:hover {
 
 .header__nav a:hover {
   color: var(--color-primary);
-}
-
-/* ============================================
-     Theme Toggle Button
-     ============================================ */
-.theme-toggle {
-  background: var(--color-bg-secondary);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-md);
-  padding: var(--spacing-sm) var(--spacing-md);
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all var(--transition-fast);
-}
-
-.theme-toggle:hover {
-  background: var(--color-border);
-  transform: scale(1.05);
-}
-
-.theme-toggle:active {
-  transform: scale(0.95);
-}
-
-.theme-toggle__icon {
-  font-size: 1.25rem;
-  line-height: 1;
 }
 
 /* ============================================

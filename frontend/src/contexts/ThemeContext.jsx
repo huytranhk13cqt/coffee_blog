@@ -1,58 +1,68 @@
 /**
  * ThemeContext.jsx
  * =================
- * Context để quản lý Dark/Light mode.
- *
- * Context giúp chia sẻ theme state cho tất cả components
- * mà không cần truyền props qua từng level.
+ * Context để quản lý Dark/Light mode với Coffee theme.
  */
 
-import { createContext, useContext, useState, useEffect } from "react";
+import { createContext, useContext, useState, useEffect, useRef } from "react";
 
-// 1. Tạo Context
+// Tạo Context
 const ThemeContext = createContext(undefined);
 
-// 2. Tạo Provider Component
+// Provider Component
 export function ThemeProvider({ children }) {
-  // State lưu theme hiện tại ('light' hoặc 'dark')
+  // 'light' = coffee đầy (sáng, năng lượng)
+  // 'dark' = cốc rỗng (tối, nghỉ ngơi)
   const [theme, setTheme] = useState("light");
+  const [isPouring, setIsPouring] = useState(false);
+  const prevThemeRef = useRef(theme);
 
-  // Khi component mount, đọc theme từ localStorage hoặc system preference
+  // Đọc theme từ localStorage hoặc system preference khi mount
   useEffect(() => {
-    // Thử đọc từ localStorage trước
     const savedTheme = localStorage.getItem("theme");
 
     if (savedTheme) {
-      // Nếu user đã chọn theme trước đó, dùng theme đó
       setTheme(savedTheme);
+      prevThemeRef.current = savedTheme;
     } else {
-      // Nếu chưa, check system preference
       const prefersDark = window.matchMedia(
         "(prefers-color-scheme: dark)"
       ).matches;
-      setTheme(prefersDark ? "dark" : "light");
+      const initialTheme = prefersDark ? "dark" : "light";
+      setTheme(initialTheme);
+      prevThemeRef.current = initialTheme;
     }
   }, []);
 
-  // Khi theme thay đổi, cập nhật DOM và localStorage
+  // Cập nhật DOM và localStorage khi theme thay đổi
   useEffect(() => {
-    // Set attribute trên <html> element
     document.documentElement.setAttribute("data-theme", theme);
-
-    // Lưu vào localStorage để nhớ cho lần sau
     localStorage.setItem("theme", theme);
   }, [theme]);
 
-  // Function để toggle theme
+  // Trigger pouring animation khi chuyển từ dark → light
+  useEffect(() => {
+    if (prevThemeRef.current === "dark" && theme === "light") {
+      setIsPouring(true);
+      const timer = setTimeout(() => {
+        setIsPouring(false);
+      }, 1800);
+      return () => clearTimeout(timer);
+    }
+    prevThemeRef.current = theme;
+  }, [theme]);
+
+  // Toggle theme
   const toggleTheme = () => {
-    setTheme((prevTheme) => (prevTheme === "light" ? "dark" : "light"));
+    setTheme((prev) => (prev === "light" ? "dark" : "light"));
   };
 
-  // Giá trị được chia sẻ cho tất cả components
   const value = {
     theme,
     toggleTheme,
     isDark: theme === "dark",
+    isLight: theme === "light",
+    isPouring,
   };
 
   return (
@@ -60,7 +70,7 @@ export function ThemeProvider({ children }) {
   );
 }
 
-// 3. Custom hook để dùng theme dễ dàng hơn
+// Custom hook
 export function useTheme() {
   const context = useContext(ThemeContext);
 
