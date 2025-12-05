@@ -14,6 +14,7 @@ import {
 } from "react-syntax-highlighter/dist/esm/styles/prism";
 import { getPostBySlug } from "../../services/postService";
 import { useTheme } from "../../contexts/ThemeContext";
+import Comments from "../../components/post/Comments";
 
 function PostDetail() {
   const { slug } = useParams();
@@ -165,6 +166,9 @@ function PostDetail() {
           ← Back to all posts
         </Link>
       </footer>
+
+      {/* Comments Section */}
+      <Comments />
     </article>
   );
 }
