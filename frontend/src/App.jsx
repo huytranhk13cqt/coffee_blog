@@ -35,8 +35,10 @@ function App() {
                 <Link to="/portfolio">Portfolio</Link>
               </nav>
               <div className="header__divider"></div>
-              <SearchBar />
-              <ThemeToggle />
+              <div className="header__controls">
+                <SearchBar />
+                <ThemeToggle />
+              </div>
             </div>
           </header>
 

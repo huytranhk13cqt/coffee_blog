@@ -12,6 +12,8 @@ from app.config import settings
 from app.services.post_repository import post_repository
 from app.services.category_repository import category_repository
 from app.services.tag_repository import tag_repository
+from app.services.project_repository import project_repository  # ← Thêm dòng này
+
 from app.models import (
     PostResponse, 
     PostListResponse, 
