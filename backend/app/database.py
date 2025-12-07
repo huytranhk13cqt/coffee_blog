@@ -1,36 +1,33 @@
-"""
-database.py
-===========
-Khởi tạo và quản lý Supabase client.
-Đây là nơi duy nhất tạo connection đến database.
-"""
-
+import os
+import time
+from functools import wraps
 from supabase import create_client, Client
-from app.config import settings
+from dotenv import load_dotenv
+import httpx
 
+load_dotenv()
 
-def get_supabase_client() -> Client:
-    """
-    Tạo và trả về Supabase client.
-    
-    Returns:
-        Client: Supabase client đã được khởi tạo
-        
-    Raises:
-        ValueError: Nếu thiếu SUPABASE_URL hoặc SUPABASE_KEY
-    """
-    if not settings.SUPABASE_URL or not settings.SUPABASE_KEY:
-        raise ValueError(
-            "Supabase credentials not found. "
-            "Please check your .env file."
-        )
-    
-    return create_client(
-        settings.SUPABASE_URL,
-        settings.SUPABASE_KEY
-    )
+SUPABASE_URL = os.getenv("SUPABASE_URL")
+SUPABASE_KEY = os.getenv("SUPABASE_KEY")
 
+# Create Supabase client
+supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
 
-# Tạo một instance dùng chung (singleton pattern)
-# Điều này tránh việc tạo nhiều connections không cần thiết
-supabase: Client = get_supabase_client()
+# Retry decorator for transient connection errors
+def with_retry(max_retries=3, delay=0.5):
+    """Decorator to retry database operations on transient failures."""
+    def decorator(func):
+        @wraps(func)
+        def wrapper(*args, **kwargs):
+            last_exception = None
+            for attempt in range(max_retries):
+                try:
+                    return func(*args, **kwargs)
+                except (httpx.RemoteProtocolError, httpx.ConnectError) as e:
+                    last_exception = e
+                    if attempt < max_retries - 1:
+                        time.sleep(delay * (attempt + 1))  # Exponential backoff
+                    continue
+            raise last_exception
+        return wrapper
+    return decorator

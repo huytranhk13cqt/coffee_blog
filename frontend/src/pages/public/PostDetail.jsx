@@ -1,7 +1,8 @@
 /**
  * PostDetail.jsx
- * ==============
- * Trang hiển thị nội dung đầy đủ của một blog post.
+ * ===============
+ * Trang hiển thị nội dung đầy đủ của một bài post.
+ * Bao gồm Table of Contents cho bài dài.
  */
 
 import { useState, useEffect } from "react";
@@ -12,61 +13,63 @@ import {
   oneDark,
   oneLight,
 } from "react-syntax-highlighter/dist/esm/styles/prism";
+import remarkGfm from "remark-gfm";
+import { useTheme } from "../../contexts/ThemeContext";
 import { getPostBySlug } from "../../services/postService";
 import { getPostTags } from "../../services/tagService";
-import { useTheme } from "../../contexts/ThemeContext";
+import TableOfContents from "../../components/post/TableOfContents";
 import Comments from "../../components/post/Comments";
 
 function PostDetail() {
   const { slug } = useParams();
   const { isDark } = useTheme();
-
-  // States
   const [post, setPost] = useState(null);
   const [tags, setTags] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  // Fetch post và tags
   useEffect(() => {
-    async function fetchData() {
+    async function fetchPost() {
       try {
         setLoading(true);
         setError(null);
 
-        // Fetch post và tags cùng lúc
-        const [postData, tagsData] = await Promise.all([
-          getPostBySlug(slug),
-          getPostTags(slug).catch(() => []), // Fail silently for tags
-        ]);
+        const data = await getPostBySlug(slug);
+        setPost(data);
 
-        setPost(postData);
+        // Fetch tags
+        const tagsData = await getPostTags(slug);
         setTags(tagsData);
 
-        document.title = `${postData.title} | Coffee's Blog`;
+        document.title = `${data.title} | Coffee's Blog`;
       } catch (err) {
         console.error("Failed to fetch post:", err);
-        setError("Post not found or failed to load.");
+        setError("Failed to load post. Please try again later.");
       } finally {
         setLoading(false);
       }
     }
 
-    fetchData();
+    fetchPost();
 
+    // Cleanup
     return () => {
       document.title = "Coffee's Blog";
     };
   }, [slug]);
 
-  // Format date
-  const formatDate = (dateString) => {
-    const date = new Date(dateString);
-    return date.toLocaleDateString("en-US", {
-      year: "numeric",
-      month: "long",
-      day: "numeric",
-    });
+  // Custom heading renderer - thêm ID cho scroll
+  const HeadingRenderer = ({ level, children }) => {
+    const text = children?.toString() || "";
+    const id = text
+      .toLowerCase()
+      .replace(/[^a-z0-9\s-]/g, "")
+      .replace(/\s+/g, "-")
+      .replace(/-+/g, "-")
+      .trim();
+
+    const Tag = `h${level}`;
+    return <Tag id={id}>{children}</Tag>;
   };
 
   // Loading state
@@ -93,38 +96,31 @@ function PostDetail() {
     );
   }
 
-  // Render post
   return (
     <article className="post-detail">
-      {/* Back link */}
-      <Link to="/" className="back-link">
-        ← Back to all posts
-      </Link>
-
       {/* Post Header */}
       <header className="post-detail__header">
-        {/* Category */}
-        {post.categories && (
-          <Link
-            to={`/category/${post.categories.slug}`}
-            className="post-detail__category"
-          >
-            {post.categories.name}
-          </Link>
-        )}
-
-        {/* Title */}
         <h1 className="post-detail__title">{post.title}</h1>
 
-        {/* Meta */}
         <div className="post-detail__meta">
-          <span className="post-detail__date">
-            {formatDate(post.published_at || post.created_at)}
-          </span>
-          {post.reading_time_minutes && (
-            <span className="post-detail__reading-time">
-              · {post.reading_time_minutes} min read
-            </span>
+          <time className="post-detail__date">
+            {new Date(post.published_at || post.created_at).toLocaleDateString(
+              "en-US",
+              {
+                year: "numeric",
+                month: "long",
+                day: "numeric",
+              }
+            )}
+          </time>
+
+          {post.categories && (
+            <Link
+              to={`/category/${post.categories.slug}`}
+              className="post-detail__category"
+            >
+              {post.categories.name}
+            </Link>
           )}
         </div>
 
@@ -132,11 +128,7 @@ function PostDetail() {
         {tags.length > 0 && (
           <div className="post-detail__tags">
             {tags.map((tag) => (
-              <Link
-                key={tag.id}
-                to={`/tag/${tag.slug}`}
-                className="post-detail__tag"
-              >
+              <Link key={tag.id} to={`/tag/${tag.slug}`} className="tag-badge">
                 #{tag.name}
               </Link>
             ))}
@@ -146,32 +138,43 @@ function PostDetail() {
 
       {/* Cover Image */}
       {post.cover_image_url && (
-        <div className="post-detail__cover">
+        <figure className="post-detail__cover">
           <img src={post.cover_image_url} alt={post.title} />
-        </div>
+        </figure>
       )}
 
-      {/* Post Content - Render Markdown */}
+      {/* Table of Contents - Hiển thị ở đầu bài */}
+      <TableOfContents content={post.content} />
+
+      {/* Post Content */}
       <div className="post-detail__content">
         <ReactMarkdown
+          remarkPlugins={[remarkGfm]}
           components={{
+            // Custom headings với ID
+            h1: ({ children }) => (
+              <HeadingRenderer level={1}>{children}</HeadingRenderer>
+            ),
+            h2: ({ children }) => (
+              <HeadingRenderer level={2}>{children}</HeadingRenderer>
+            ),
+            h3: ({ children }) => (
+              <HeadingRenderer level={3}>{children}</HeadingRenderer>
+            ),
+
+            // Code blocks
             code({ node, inline, className, children, ...props }) {
               const match = /language-(\w+)/.exec(className || "");
-
-              if (!inline && match) {
-                return (
-                  <SyntaxHighlighter
-                    style={isDark ? oneDark : oneLight}
-                    language={match[1]}
-                    PreTag="div"
-                    {...props}
-                  >
-                    {String(children).replace(/\n$/, "")}
-                  </SyntaxHighlighter>
-                );
-              }
-
-              return (
+              return !inline && match ? (
+                <SyntaxHighlighter
+                  style={isDark ? oneDark : oneLight}
+                  language={match[1]}
+                  PreTag="div"
+                  {...props}
+                >
+                  {String(children).replace(/\n$/, "")}
+                </SyntaxHighlighter>
+              ) : (
                 <code className={className} {...props}>
                   {children}
                 </code>
@@ -183,15 +186,17 @@ function PostDetail() {
         </ReactMarkdown>
       </div>
 
-      {/* Post Footer */}
+      {/* Comments Section */}
+      <section className="post-detail__comments">
+        <Comments />
+      </section>
+
+      {/* Back Link */}
       <footer className="post-detail__footer">
         <Link to="/" className="back-link">
-          ← Back to all posts
+          ← Back to Home
         </Link>
       </footer>
-
-      {/* Comments Section */}
-      <Comments />
     </article>
   );
 }

@@ -2814,3 +2814,25 @@ a.post-detail__category:hover {
 .yarl__root {
   --yarl__color_backdrop: rgba(0, 0, 0, 0.95);
 }
+
+/* ============================================
+   Post Detail - Layout với ToC
+   ============================================ */
+
+/* ToC hiển thị trước content, không sticky */
+.post-detail__sidebar {
+  margin-bottom: var(--spacing-lg);
+}
+
+/* Content */
+.post-detail__content {
+  width: 100%;
+}
+
+/* Tags styling in header */
+.post-detail__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-xs);
+  margin-top: var(--spacing-sm);
+}
