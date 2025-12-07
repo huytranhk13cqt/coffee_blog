@@ -17,6 +17,8 @@ import About from "./pages/public/About";
 import Contact from "./pages/public/Contact";
 import Portfolio from "./pages/public/Portfolio";
 import Gallery from "./pages/public/Gallery";
+import Uses from "./pages/public/Uses";
+import Bookmarks from "./pages/public/Bookmarks";
 
 function App() {
   return (
@@ -34,6 +36,8 @@ function App() {
                 <Link to="/about">About</Link>
                 <Link to="/portfolio">Portfolio</Link>
                 <Link to="/gallery">Gallery</Link>
+                <Link to="/uses">Uses</Link>
+                <Link to="/bookmarks">Bookmarks</Link>
                 <Link to="/contact">Contact</Link>
               </nav>
               <div className="header__divider"></div>
@@ -57,6 +61,8 @@ function App() {
               <Route path="/portfolio" element={<Portfolio />} />
               <Route path="/gallery" element={<Gallery />} />
               <Route path="*" element={<NotFound />} />
+              <Route path="/uses" element={<Uses />} />
+              <Route path="/bookmarks" element={<Bookmarks />} />
             </Routes>
           </main>
 

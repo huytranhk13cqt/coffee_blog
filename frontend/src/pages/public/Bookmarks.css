@@ -1,0 +1,127 @@
+/* frontend/src/pages/public/Bookmarks.css */
+
+.bookmarks-page {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 40px 20px;
+}
+
+.bookmarks-header {
+  text-align: center;
+  margin-bottom: 48px;
+}
+
+.bookmarks-icon {
+  color: var(--primary);
+  margin-bottom: 16px;
+}
+
+.bookmarks-header h1 {
+  font-size: 2.5rem;
+  margin-bottom: 12px;
+  color: var(--text-primary);
+}
+
+.bookmarks-subtitle {
+  font-size: 1.1rem;
+  color: var(--text-secondary);
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.bookmarks-content {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+.bookmarks-section-title {
+  font-size: 1.5rem;
+  color: var(--text-primary);
+  margin-bottom: 20px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid var(--border-color);
+}
+
+.bookmarks-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 16px;
+}
+
+.bookmark-card {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 16px;
+  background: var(--bg-secondary);
+  border: 2px solid var(--border-color);
+  border-radius: 10px;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.bookmark-card:hover {
+  border-color: var(--primary);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.bookmark-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.bookmark-name {
+  font-weight: 600;
+  color: var(--text-primary);
+  font-size: 1rem;
+}
+
+.bookmark-external {
+  color: var(--text-secondary);
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.bookmark-card:hover .bookmark-external {
+  opacity: 1;
+}
+
+.bookmark-description {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  margin: 0;
+  line-height: 1.5;
+}
+
+.bookmark-url {
+  font-size: 0.8rem;
+  color: var(--primary);
+  opacity: 0.7;
+}
+
+.bookmarks-footer {
+  margin-top: 48px;
+  padding-top: 24px;
+  border-top: 1px solid var(--border-color);
+  text-align: center;
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+}
+
+.bookmarks-footer a {
+  color: var(--primary);
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+  .bookmarks-header h1 {
+    font-size: 2rem;
+  }
+
+  .bookmarks-grid {
+    grid-template-columns: 1fr;
+  }
+}

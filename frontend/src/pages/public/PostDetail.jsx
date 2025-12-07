@@ -19,6 +19,7 @@ import { getPostBySlug } from "../../services/postService";
 import { getPostTags } from "../../services/tagService";
 import TableOfContents from "../../components/post/TableOfContents";
 import Comments from "../../components/post/Comments";
+import CopyLinkButton from "../../components/common/CopyLinkButton";
 
 function PostDetail() {
   const { slug } = useParams();
@@ -122,6 +123,10 @@ function PostDetail() {
               {post.categories.name}
             </Link>
           )}
+
+          <div className="post-actions">
+            <CopyLinkButton url={window.location.href} />
+          </div>
         </div>
 
         {/* Tags */}
