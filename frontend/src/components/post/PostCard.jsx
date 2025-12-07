@@ -4,9 +4,28 @@
  * Component hiển thị preview của một post trong danh sách.
  */
 
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import { getPostTags } from "../../services/tagService";
 
 function PostCard({ post }) {
+  const [tags, setTags] = useState([]);
+
+  // Fetch tags cho post
+  useEffect(() => {
+    async function fetchTags() {
+      try {
+        const data = await getPostTags(post.slug);
+        setTags(data);
+      } catch (err) {
+        // Silently fail - tags are optional
+        console.error("Failed to fetch tags:", err);
+      }
+    }
+
+    fetchTags();
+  }, [post.slug]);
+
   // Format date
   const formatDate = (dateString) => {
     const date = new Date(dateString);
@@ -30,7 +49,7 @@ function PostCard({ post }) {
 
       {/* Content */}
       <div className="post-card__content">
-        {/* Category Badge - Now clickable! */}
+        {/* Category Badge */}
         {post.categories && (
           <Link
             to={`/category/${post.categories.slug}`}
@@ -49,6 +68,21 @@ function PostCard({ post }) {
         <p className="post-card__excerpt">
           {post.excerpt || "No excerpt available."}
         </p>
+
+        {/* Tags */}
+        {tags.length > 0 && (
+          <div className="post-card__tags">
+            {tags.map((tag) => (
+              <Link
+                key={tag.id}
+                to={`/tag/${tag.slug}`}
+                className="post-card__tag"
+              >
+                #{tag.name}
+              </Link>
+            ))}
+          </div>
+        )}
 
         {/* Meta Info */}
         <div className="post-card__meta">

@@ -1181,3 +1181,135 @@ a.post-detail__category:hover {
   width: 100%;
   border: none;
 }
+
+/* ============================================
+   Tag Badge (reusable)
+   ============================================ */
+.tag-badge {
+  display: inline-block;
+  background: var(--color-bg-secondary);
+  color: var(--color-text-secondary);
+  padding: 4px 10px;
+  border-radius: var(--radius-sm);
+  font-size: 0.8rem;
+  font-weight: 500;
+  text-decoration: none;
+  border: 1px solid var(--color-border);
+  transition: all var(--transition-fast);
+}
+
+.tag-badge:hover {
+  background: var(--color-primary);
+  color: white;
+  border-color: var(--color-primary);
+}
+
+.tag-badge--small {
+  padding: 2px 6px;
+  font-size: 0.75rem;
+}
+
+/* ============================================
+     Tag Page
+     ============================================ */
+.tag-page {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.tag-page__header {
+  text-align: center;
+  margin-bottom: var(--spacing-xl);
+  padding-bottom: var(--spacing-lg);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.tag-page__badge {
+  display: inline-block;
+  background: var(--color-bg-secondary);
+  color: var(--color-primary);
+  padding: 8px 20px;
+  border-radius: var(--radius-md);
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: var(--spacing-md);
+  border: 2px solid var(--color-primary);
+}
+
+.tag-page__title {
+  font-size: 1.75rem;
+  margin-bottom: var(--spacing-sm);
+}
+
+.tag-page__count {
+  color: var(--color-text-secondary);
+  font-size: 0.9rem;
+}
+
+.tag-page__posts {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-lg);
+}
+
+.tag-page__empty {
+  text-align: center;
+  padding: var(--spacing-xl);
+  color: var(--color-text-secondary);
+}
+
+/* ============================================
+     Post Card Tags
+     ============================================ */
+.post-card__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-xs);
+  margin-bottom: var(--spacing-sm);
+}
+
+.post-card__tag {
+  display: inline-block;
+  background: var(--color-bg-secondary);
+  color: var(--color-text-secondary);
+  padding: 2px 8px;
+  border-radius: var(--radius-sm);
+  font-size: 0.75rem;
+  text-decoration: none;
+  border: 1px solid var(--color-border);
+  transition: all var(--transition-fast);
+}
+
+.post-card__tag:hover {
+  background: var(--color-primary);
+  color: white;
+  border-color: var(--color-primary);
+}
+
+/* ============================================
+     Post Detail Tags
+     ============================================ */
+.post-detail__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-sm);
+  margin-top: var(--spacing-md);
+}
+
+.post-detail__tag {
+  display: inline-block;
+  background: var(--color-bg-secondary);
+  color: var(--color-text-secondary);
+  padding: 4px 12px;
+  border-radius: var(--radius-sm);
+  font-size: 0.85rem;
+  text-decoration: none;
+  border: 1px solid var(--color-border);
+  transition: all var(--transition-fast);
+}
+
+.post-detail__tag:hover {
+  background: var(--color-primary);
+  color: white;
+  border-color: var(--color-primary);
+}

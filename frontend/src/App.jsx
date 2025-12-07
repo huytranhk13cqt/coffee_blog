@@ -10,6 +10,7 @@ import ThemeToggle from "./components/common/ThemeToggle";
 import Home from "./pages/public/Home";
 import PostDetail from "./pages/public/PostDetail";
 import Category from "./pages/public/Category";
+import Tag from "./pages/public/Tag";
 import About from "./pages/public/About";
 import Contact from "./pages/public/Contact";
 import Portfolio from "./pages/public/Portfolio";
@@ -42,6 +43,7 @@ function App() {
               <Route path="/" element={<Home />} />
               <Route path="/post/:slug" element={<PostDetail />} />
               <Route path="/category/:slug" element={<Category />} />
+              <Route path="/tag/:slug" element={<Tag />} />
               <Route path="/about" element={<About />} />
               <Route path="/contact" element={<Contact />} />
               <Route path="/portfolio" element={<Portfolio />} />

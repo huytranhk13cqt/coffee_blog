@@ -11,14 +11,14 @@ from uuid import UUID
 from app.config import settings
 from app.services.post_repository import post_repository
 from app.services.category_repository import category_repository
-from app.services.project_repository import project_repository
-
+from app.services.tag_repository import tag_repository
 from app.models import (
     PostResponse, 
     PostListResponse, 
     PostCreate, 
     PostUpdate,
     CategoryResponse,
+    TagResponse,
     ProjectResponse,
 )
 
@@ -161,8 +161,68 @@ def delete_post(post_id: UUID):
 # Projects API Endpoints (Portfolio)
 # ============================================
 
-@app.get("/api/projects", response_model=List[ProjectResponse])
+@app.get("/api/projects", response_model=List[ProjectResponse])  # Sửa từ PortfolioResponse → ProjectResponse
 def get_projects():
     """Lấy tất cả projects cho portfolio."""
     projects = project_repository.get_all()
     return projects
+
+# ============================================
+# Tags API Endpoints
+# ============================================
+
+@app.get("/api/tags", response_model=List[TagResponse])
+def get_tags():
+    """Lấy tất cả tags."""
+    tags = tag_repository.get_all()
+    return tags
+
+
+@app.get("/api/tags/{slug}")
+def get_tag_by_slug(slug: str):
+    """Lấy một tag theo slug."""
+    tag = tag_repository.get_by_slug(slug)
+    
+    if not tag:
+        raise HTTPException(status_code=404, detail="Tag not found")
+    
+    return tag
+
+
+@app.get("/api/tags/{slug}/posts")
+def get_posts_by_tag(
+    slug: str,
+    page: int = Query(1, ge=1),
+    per_page: int = Query(10, ge=1, le=50)
+):
+    """Lấy tất cả posts có tag cụ thể."""
+    tag = tag_repository.get_by_slug(slug)
+    
+    if not tag:
+        raise HTTPException(status_code=404, detail="Tag not found")
+    
+    posts, total = tag_repository.get_posts_by_tag(
+        tag_slug=slug,
+        page=page,
+        per_page=per_page
+    )
+    
+    return {
+        "tag": tag,
+        "posts": posts,
+        "total": total,
+        "page": page,
+        "per_page": per_page
+    }
+
+
+@app.get("/api/posts/{slug}/tags")
+def get_post_tags(slug: str):
+    """Lấy tất cả tags của một post."""
+    post = post_repository.get_by_slug(slug)
+    
+    if not post:
+        raise HTTPException(status_code=404, detail="Post not found")
+    
+    tags = tag_repository.get_tags_for_post(post["id"])
+    return tags

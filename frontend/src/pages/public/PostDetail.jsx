@@ -13,6 +13,7 @@ import {
   oneLight,
 } from "react-syntax-highlighter/dist/esm/styles/prism";
 import { getPostBySlug } from "../../services/postService";
+import { getPostTags } from "../../services/tagService";
 import { useTheme } from "../../contexts/ThemeContext";
 import Comments from "../../components/post/Comments";
 
@@ -22,20 +23,27 @@ function PostDetail() {
 
   // States
   const [post, setPost] = useState(null);
+  const [tags, setTags] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  // Fetch post khi component mount hoặc slug thay đổi
+  // Fetch post và tags
   useEffect(() => {
-    async function fetchPost() {
+    async function fetchData() {
       try {
         setLoading(true);
         setError(null);
 
-        const data = await getPostBySlug(slug);
-        setPost(data);
+        // Fetch post và tags cùng lúc
+        const [postData, tagsData] = await Promise.all([
+          getPostBySlug(slug),
+          getPostTags(slug).catch(() => []), // Fail silently for tags
+        ]);
 
-        document.title = `${data.title} | Coffee's Blog`;
+        setPost(postData);
+        setTags(tagsData);
+
+        document.title = `${postData.title} | Coffee's Blog`;
       } catch (err) {
         console.error("Failed to fetch post:", err);
         setError("Post not found or failed to load.");
@@ -44,7 +52,7 @@ function PostDetail() {
       }
     }
 
-    fetchPost();
+    fetchData();
 
     return () => {
       document.title = "Coffee's Blog";
@@ -119,6 +127,21 @@ function PostDetail() {
             </span>
           )}
         </div>
+
+        {/* Tags */}
+        {tags.length > 0 && (
+          <div className="post-detail__tags">
+            {tags.map((tag) => (
+              <Link
+                key={tag.id}
+                to={`/tag/${tag.slug}`}
+                className="post-detail__tag"
+              >
+                #{tag.name}
+              </Link>
+            ))}
+          </div>
+        )}
       </header>
 
       {/* Cover Image */}

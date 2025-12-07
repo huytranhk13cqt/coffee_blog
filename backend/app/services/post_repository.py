@@ -16,7 +16,6 @@ from datetime import datetime
 from app.database import supabase
 from app.models import PostResponse, PostCreate, PostUpdate
 
-
 class PostRepository:
     """
     Repository class cho Post operations.
@@ -231,6 +230,22 @@ class PostRepository:
         slug = slug.strip('-')
         
         return slug
+    
+    def get_post_with_tags(self, slug: str) -> Optional[dict]:
+        """
+        Lấy post với đầy đủ thông tin bao gồm tags.
+        """
+        # Lấy post
+        post = self.get_by_slug(slug)
+        if not post:
+            return None
+        
+        # Lấy tags cho post
+        from app.services.tag_repository import tag_repository
+        tags = tag_repository.get_tags_for_post(post["id"])
+        post["tags"] = tags
+        
+        return post
 
 
 # Singleton instance
