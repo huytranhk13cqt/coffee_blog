@@ -9,10 +9,11 @@ from typing import Optional, List
 from uuid import UUID
 
 from app.config import settings
+from app.database import supabase  # ← Thêm dòng này
 from app.services.post_repository import post_repository
 from app.services.category_repository import category_repository
 from app.services.tag_repository import tag_repository
-from app.services.project_repository import project_repository  # ← Thêm dòng này
+from app.services.project_repository import project_repository
 
 from app.models import (
     PostResponse, 
@@ -253,3 +254,53 @@ def get_post_tags(slug: str):
     tags = tag_repository.get_tags_for_post(post["id"])
     return tags
 
+
+# ============================================
+# Gallery API Endpoints
+# ============================================
+
+@app.get("/api/gallery")
+def get_gallery_images():
+    """
+    Lấy tất cả images từ published posts.
+    Extract từ cover_image_url và content (markdown images).
+    """
+    import re
+    
+    # Query trực tiếp từ Supabase thay vì dùng repository
+    response = supabase.table("posts").select("*").eq("status", "published").execute()
+    posts = response.data
+    
+    images = []
+    
+    for post in posts:
+        # 1. Cover image
+        if post.get("cover_image_url"):
+            images.append({
+                "url": post["cover_image_url"],
+                "alt": post["title"],
+                "post_title": post["title"],
+                "post_slug": post["slug"],
+                "type": "cover"
+            })
+        
+        # 2. Images trong content (markdown format: ![alt](url))
+        content = post.get("content", "")
+        if content:
+            # Regex để tìm markdown images
+            pattern = r'!\[([^\]]*)\]\(([^)]+)\)'
+            matches = re.findall(pattern, content)
+            
+            for alt, url in matches:
+                images.append({
+                    "url": url,
+                    "alt": alt or post["title"],
+                    "post_title": post["title"],
+                    "post_slug": post["slug"],
+                    "type": "content"
+                })
+    
+    return {
+        "images": images,
+        "total": len(images)
+    }

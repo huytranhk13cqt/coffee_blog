@@ -16,6 +16,7 @@ import Search from "./pages/public/Search";
 import About from "./pages/public/About";
 import Contact from "./pages/public/Contact";
 import Portfolio from "./pages/public/Portfolio";
+import Gallery from "./pages/public/Gallery";
 
 function App() {
   return (
@@ -31,8 +32,9 @@ function App() {
               <nav className="header__nav">
                 <Link to="/">Home</Link>
                 <Link to="/about">About</Link>
-                <Link to="/contact">Contact</Link>
                 <Link to="/portfolio">Portfolio</Link>
+                <Link to="/gallery">Gallery</Link>
+                <Link to="/contact">Contact</Link>
               </nav>
               <div className="header__divider"></div>
               <div className="header__controls">
@@ -53,6 +55,7 @@ function App() {
               <Route path="/about" element={<About />} />
               <Route path="/contact" element={<Contact />} />
               <Route path="/portfolio" element={<Portfolio />} />
+              <Route path="/gallery" element={<Gallery />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </main>
