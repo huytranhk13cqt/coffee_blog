@@ -246,6 +246,37 @@ class PostRepository:
         post["tags"] = tags
         
         return post
+    
+    def search(self, query: str, page: int = 1, per_page: int = 10) -> tuple[List[dict], int]:
+        """
+        Tìm kiếm posts theo keyword.
+        Search trong title, excerpt, và content.
+        """
+        if not query or not query.strip():
+            return [], 0
+        
+        # Clean query
+        search_term = query.strip()
+        
+        # Calculate offset
+        offset = (page - 1) * per_page
+        
+        # Search using ilike (case-insensitive LIKE)
+        # Supabase/PostgREST dùng * thay vì % cho wildcard
+        response = supabase.table(self.TABLE_NAME).select(
+            "*, categories(name, slug)",
+            count="exact"
+        ).eq(
+            "status", "published"
+        ).or_(
+            f"title.ilike.*{search_term}*,"
+            f"excerpt.ilike.*{search_term}*,"
+            f"content.ilike.*{search_term}*"
+        ).order(
+            "published_at", desc=True
+        ).range(offset, offset + per_page - 1).execute()
+        
+        return response.data, response.count or 0
 
 
 # Singleton instance

@@ -114,6 +114,30 @@ def get_posts(
     )
 
 
+@app.get("/api/posts/search")
+def search_posts(
+    q: str = Query(..., min_length=1, description="Search query"),
+    page: int = Query(1, ge=1),
+    per_page: int = Query(10, ge=1, le=50)
+):
+    """
+    Tìm kiếm posts theo keyword.
+    Search trong title, excerpt, và content.
+    """
+    posts, total = post_repository.search(
+        query=q,
+        page=page,
+        per_page=per_page
+    )
+    
+    return {
+        "query": q,
+        "posts": posts,
+        "total": total,
+        "page": page,
+        "per_page": per_page
+    }
+
 @app.get("/api/posts/{slug}")
 def get_post_by_slug(slug: str):
     """Lấy một post theo slug."""
@@ -226,3 +250,4 @@ def get_post_tags(slug: str):
     
     tags = tag_repository.get_tags_for_post(post["id"])
     return tags
+

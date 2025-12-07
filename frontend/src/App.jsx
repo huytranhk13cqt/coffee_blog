@@ -7,10 +7,12 @@
 import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 import { ThemeProvider } from "./contexts/ThemeContext";
 import ThemeToggle from "./components/common/ThemeToggle";
+import SearchBar from "./components/common/SearchBar";
 import Home from "./pages/public/Home";
 import PostDetail from "./pages/public/PostDetail";
 import Category from "./pages/public/Category";
 import Tag from "./pages/public/Tag";
+import Search from "./pages/public/Search";
 import About from "./pages/public/About";
 import Contact from "./pages/public/Contact";
 import Portfolio from "./pages/public/Portfolio";
@@ -33,6 +35,7 @@ function App() {
                 <Link to="/portfolio">Portfolio</Link>
               </nav>
               <div className="header__divider"></div>
+              <SearchBar />
               <ThemeToggle />
             </div>
           </header>
@@ -44,6 +47,7 @@ function App() {
               <Route path="/post/:slug" element={<PostDetail />} />
               <Route path="/category/:slug" element={<Category />} />
               <Route path="/tag/:slug" element={<Tag />} />
+              <Route path="/search" element={<Search />} />
               <Route path="/about" element={<About />} />
               <Route path="/contact" element={<Contact />} />
               <Route path="/portfolio" element={<Portfolio />} />

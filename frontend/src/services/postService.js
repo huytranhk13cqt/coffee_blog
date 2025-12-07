@@ -72,3 +72,20 @@ export async function deletePost(postId) {
     method: "DELETE",
   });
 }
+
+/**
+ * Tìm kiếm posts theo keyword.
+ *
+ * @param {string} query - Từ khóa tìm kiếm
+ * @param {Object} params - Query params
+ * @returns {Promise<Object>} { query, posts, total, page, per_page }
+ */
+export async function searchPosts(query, { page = 1, perPage = 10 } = {}) {
+  const params = new URLSearchParams({
+    q: query,
+    page: page.toString(),
+    per_page: perPage.toString(),
+  });
+
+  return fetchAPI(`/api/posts/search?${params.toString()}`);
+}
