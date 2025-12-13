@@ -3,13 +3,13 @@ Coffee's Personal Blog - Backend API
 =====================================
 """
 
-from fastapi import FastAPI, HTTPException, Query
+from fastapi import FastAPI, HTTPException, Query, Depends
 from fastapi.middleware.cors import CORSMiddleware
 from typing import Optional, List
 from uuid import UUID
 
 from app.config import settings
-from app.database import supabase  # ← Thêm dòng này
+from app.database import supabase
 from app.services.post_repository import post_repository
 from app.services.category_repository import category_repository
 from app.services.tag_repository import tag_repository
@@ -24,6 +24,8 @@ from app.models import (
     TagResponse,
     ProjectResponse,
 )
+
+from app.middlewares.auth import get_current_user
 
 
 # Create FastAPI app
@@ -153,35 +155,26 @@ def get_post_by_slug(slug: str):
 
 
 @app.post("/api/posts", status_code=201)
-def create_post(post_data: PostCreate):
-    """Tạo post mới."""
+def create_post(post_data: PostCreate, current_user = Depends(get_current_user)):
     post = post_repository.create(post_data)
-    
     if not post:
         raise HTTPException(status_code=400, detail="Failed to create post")
-    
     return post
 
 
 @app.put("/api/posts/{post_id}")
-def update_post(post_id: UUID, post_data: PostUpdate):
-    """Cập nhật post."""
+def update_post(post_id: UUID, post_data: PostUpdate, current_user = Depends(get_current_user)):
     post = post_repository.update(post_id, post_data)
-    
     if not post:
         raise HTTPException(status_code=404, detail="Post not found")
-    
     return post
 
 
 @app.delete("/api/posts/{post_id}", status_code=204)
-def delete_post(post_id: UUID):
-    """Xóa post."""
+def delete_post(post_id: UUID, current_user = Depends(get_current_user)):
     success = post_repository.delete(post_id)
-    
     if not success:
         raise HTTPException(status_code=404, detail="Post not found")
-    
     return None
 
 # ============================================
@@ -253,6 +246,7 @@ def get_post_tags(slug: str):
     
     tags = tag_repository.get_tags_for_post(post["id"])
     return tags
+
 
 
 # ============================================
