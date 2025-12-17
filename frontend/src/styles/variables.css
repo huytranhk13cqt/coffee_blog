@@ -1,0 +1,459 @@
+/**
+ * Coffee's Personal Blog - CSS Design System Variables
+ * =====================================================
+ * Theme: Cozy Pixel Cafe Blog (GBA Style)
+ *
+ * Usage:
+ * - Import this file in your main CSS or App entry
+ * - Use variables with var(--variable-name)
+ * - Toggle dark mode by adding class "dark-theme" to :root or body
+ */
+
+/* ===========================================
+   1. COLOR TOKENS - LIGHT MODE (Default)
+   =========================================== */
+:root {
+  /* ---- Backgrounds ---- */
+  --bg-primary: #FDFBF3;      /* Main page background - cream/off-white */
+  --bg-secondary: #F8F0E3;    /* Card backgrounds - warm beige */
+  --bg-tertiary: #EAE0C9;     /* Outer borders/margins - darker beige */
+  --bg-elevated: #FFFFFF;     /* Elevated surfaces - pure white */
+
+  /* ---- Text Colors ---- */
+  --text-primary: #1A1814;    /* Main text - very dark brown/black */
+  --text-secondary: #4A2C1F;  /* Headings, important text - dark brown */
+  --text-tertiary: #865A3B;   /* Secondary text, labels - medium brown */
+  --text-muted: #7A4F3E;      /* Timestamps, meta info - muted brown */
+  --text-inverse: #FDFBF3;    /* Text on dark backgrounds */
+
+  /* ---- Accent Colors ---- */
+  --accent-primary: #865A3B;  /* Primary brown accent */
+  --accent-secondary: #D4C2B0; /* Light brown for active states */
+  --accent-hover: #6B4226;    /* Darker brown for hover */
+
+  /* ---- Border Colors ---- */
+  --border-primary: #8B5E46;  /* Main border color */
+  --border-secondary: #C49B7A; /* Lighter border/highlight */
+  --border-dark: #5C3A2F;     /* Dark border/shadow */
+
+  /* ---- Semantic Colors ---- */
+  --success: #6B8E23;         /* Green - success states */
+  --success-light: #8CD99C;   /* Light green */
+  --warning: #FFD700;         /* Gold/Yellow - highlights, stars */
+  --warning-light: #FFF3B0;   /* Light yellow */
+  --error: #E04A4A;           /* Red - errors, alerts */
+  --error-light: #FFCDD2;     /* Light red */
+  --info: #4A9AE0;            /* Blue - info, links */
+  --info-light: #A0D0E0;      /* Light blue */
+
+  /* ---- Pixel Art Colors ---- */
+  /* Greens (Plants, Bulbasaur) */
+  --pixel-green-lightest: #9CD9A8;
+  --pixel-green-light: #8CD99C;
+  --pixel-green-main: #6BBE7B;
+  --pixel-green-dark: #4A8C5A;
+  --pixel-green-darkest: #305020;
+
+  /* Browns (Coffee, Wood) */
+  --pixel-brown-lightest: #E0C9A6;
+  --pixel-brown-light: #D4B38C;
+  --pixel-brown-main: #A37B5B;
+  --pixel-brown-dark: #6B4226;
+  --pixel-brown-darkest: #3A2D2C;
+
+  /* Blues (Water, Squirtle) */
+  --pixel-blue-lightest: #E0F0F8;
+  --pixel-blue-light: #A0D0E0;
+  --pixel-blue-main: #80C0D8;
+  --pixel-blue-dark: #5080A0;
+  --pixel-blue-darkest: #305060;
+
+  /* Special Accents */
+  --pixel-coral-pink: #E080A0;
+  --pixel-coral-dark: #B05070;
+  --pixel-purple: #8A4F9A;
+  --pixel-yellow: #F2D05B;
+  --pixel-red: #E04A4A;
+  --pixel-orange: #E08C4A;
+}
+
+/* ===========================================
+   2. COLOR TOKENS - DARK MODE
+   =========================================== */
+:root.dark-theme,
+[data-theme="dark"],
+.dark-theme {
+  /* ---- Backgrounds ---- */
+  --bg-primary: #1A1814;      /* Main background - espresso dark */
+  --bg-secondary: #2C1E1A;    /* Card backgrounds - dark brown */
+  --bg-tertiary: #3D2B26;     /* Elevated surfaces - slightly lighter */
+  --bg-elevated: #4E3E38;     /* Most elevated - lighter still */
+
+  /* ---- Text Colors ---- */
+  --text-primary: #FDFBF3;    /* Main text - cream/off-white */
+  --text-secondary: #EFE8DF;  /* Headings - light beige */
+  --text-tertiary: #D4A574;   /* Secondary text - warm gold */
+  --text-muted: #A07A5C;      /* Meta info - muted tan */
+  --text-inverse: #1A1814;    /* Text on light backgrounds */
+
+  /* ---- Accent Colors ---- */
+  --accent-primary: #D4A574;  /* Primary gold accent */
+  --accent-secondary: #CA8535; /* Orange-brown for active states */
+  --accent-hover: #E8B584;    /* Lighter gold for hover */
+
+  /* ---- Border Colors ---- */
+  --border-primary: #614116;  /* Main border color */
+  --border-secondary: #8B5E46; /* Lighter border */
+  --border-dark: #3A2D2C;     /* Dark border/shadow */
+
+  /* ---- Semantic Colors (adjusted for dark) ---- */
+  --success: #8CD99C;
+  --success-light: #305020;
+  --error: #CA4276;
+  --error-light: #4A2030;
+  --info: #A0D0E0;
+  --info-light: #305060;
+}
+
+/* ===========================================
+   3. TYPOGRAPHY TOKENS
+   =========================================== */
+:root {
+  /* ---- Font Families ---- */
+  --font-display: 'Silkscreen', 'Press Start 2P', 'Courier New', monospace;
+  --font-body: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-code: 'IBM Plex Mono', 'Fira Code', 'Consolas', 'Monaco', monospace;
+
+  /* ---- Font Sizes ---- */
+  --text-xs: 0.75rem;    /* 12px */
+  --text-sm: 0.875rem;   /* 14px */
+  --text-base: 1rem;     /* 16px */
+  --text-lg: 1.125rem;   /* 18px */
+  --text-xl: 1.25rem;    /* 20px */
+  --text-2xl: 1.5rem;    /* 24px */
+  --text-3xl: 1.875rem;  /* 30px */
+  --text-4xl: 2.25rem;   /* 36px */
+
+  /* ---- Font Weights ---- */
+  --font-light: 300;
+  --font-normal: 400;
+  --font-medium: 500;
+  --font-semibold: 600;
+  --font-bold: 700;
+
+  /* ---- Line Heights ---- */
+  --leading-none: 1;
+  --leading-tight: 1.25;
+  --leading-snug: 1.375;
+  --leading-normal: 1.5;
+  --leading-relaxed: 1.625;
+  --leading-loose: 2;
+
+  /* ---- Letter Spacing ---- */
+  --tracking-tighter: -0.05em;
+  --tracking-tight: -0.025em;
+  --tracking-normal: 0;
+  --tracking-wide: 0.025em;
+  --tracking-wider: 0.05em;
+}
+
+/* ===========================================
+   4. SPACING TOKENS (8px Grid)
+   =========================================== */
+:root {
+  --space-0: 0;
+  --space-px: 1px;
+  --space-0-5: 0.125rem;  /* 2px */
+  --space-1: 0.25rem;     /* 4px */
+  --space-2: 0.5rem;      /* 8px */
+  --space-3: 0.75rem;     /* 12px */
+  --space-4: 1rem;        /* 16px */
+  --space-5: 1.25rem;     /* 20px */
+  --space-6: 1.5rem;      /* 24px */
+  --space-7: 1.75rem;     /* 28px */
+  --space-8: 2rem;        /* 32px */
+  --space-10: 2.5rem;     /* 40px */
+  --space-12: 3rem;       /* 48px */
+  --space-16: 4rem;       /* 64px */
+  --space-20: 5rem;       /* 80px */
+  --space-24: 6rem;       /* 96px */
+}
+
+/* ===========================================
+   5. LAYOUT TOKENS
+   =========================================== */
+:root {
+  /* ---- Container Widths ---- */
+  --container-sm: 640px;
+  --container-md: 768px;
+  --container-lg: 1024px;
+  --container-xl: 1200px;
+  --container-2xl: 1400px;
+
+  /* ---- Sidebar Width ---- */
+  --sidebar-width: 280px;
+  --sidebar-width-lg: 320px;
+
+  /* ---- Content Width ---- */
+  --content-width: 720px;
+  --content-width-lg: 800px;
+}
+
+/* ===========================================
+   6. BORDER & RADIUS TOKENS
+   =========================================== */
+:root {
+  /* ---- Border Widths ---- */
+  --border-0: 0;
+  --border-1: 1px;
+  --border-2: 2px;
+  --border-4: 4px;
+
+  /* ---- Border Radius (Standard) ---- */
+  --radius-none: 0;
+  --radius-sm: 0.125rem;   /* 2px */
+  --radius-md: 0.25rem;    /* 4px */
+  --radius-lg: 0.5rem;     /* 8px */
+  --radius-xl: 0.75rem;    /* 12px */
+  --radius-2xl: 1rem;      /* 16px */
+  --radius-full: 9999px;
+
+  /* ---- Pixel Corner Clip Paths ---- */
+  /* 4px pixel corners */
+  --clip-pixel-sm: polygon(
+    0 4px,
+    4px 0,
+    calc(100% - 4px) 0,
+    100% 4px,
+    100% calc(100% - 4px),
+    calc(100% - 4px) 100%,
+    4px 100%,
+    0 calc(100% - 4px)
+  );
+
+  /* 8px pixel corners */
+  --clip-pixel-md: polygon(
+    0 8px,
+    8px 0,
+    calc(100% - 8px) 0,
+    100% 8px,
+    100% calc(100% - 8px),
+    calc(100% - 8px) 100%,
+    8px 100%,
+    0 calc(100% - 8px)
+  );
+
+  /* 12px pixel corners */
+  --clip-pixel-lg: polygon(
+    0 12px,
+    12px 0,
+    calc(100% - 12px) 0,
+    100% 12px,
+    100% calc(100% - 12px),
+    calc(100% - 12px) 100%,
+    12px 100%,
+    0 calc(100% - 12px)
+  );
+}
+
+/* ===========================================
+   7. SHADOW TOKENS
+   =========================================== */
+:root {
+  /* ---- Standard Shadows ---- */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+  --shadow-xl: 0 20px 25px rgba(0, 0, 0, 0.15);
+
+  /* ---- Pixel Shadows (hard edges) ---- */
+  --shadow-pixel-sm: 2px 2px 0 var(--border-primary);
+  --shadow-pixel-md: 4px 4px 0 var(--border-primary);
+  --shadow-pixel-lg: 6px 6px 0 var(--border-primary);
+
+  /* ---- Inset Pixel Border (3D effect) ---- */
+  --shadow-pixel-inset:
+    inset -2px -2px 0 var(--bg-tertiary),
+    inset 2px 2px 0 var(--bg-elevated);
+
+  /* ---- Glow Effect ---- */
+  --shadow-glow: 0 0 0 2px var(--warning), 0 0 16px rgba(255, 215, 0, 0.3);
+  --shadow-glow-sm: 0 0 0 1px var(--warning), 0 0 8px rgba(255, 215, 0, 0.2);
+}
+
+/* ===========================================
+   8. TRANSITION TOKENS
+   =========================================== */
+:root {
+  /* ---- Durations ---- */
+  --duration-75: 75ms;
+  --duration-100: 100ms;
+  --duration-150: 150ms;
+  --duration-200: 200ms;
+  --duration-300: 300ms;
+  --duration-500: 500ms;
+  --duration-700: 700ms;
+  --duration-1000: 1000ms;
+
+  /* ---- Timing Functions ---- */
+  --ease-linear: linear;
+  --ease-in: cubic-bezier(0.4, 0, 1, 1);
+  --ease-out: cubic-bezier(0, 0, 0.2, 1);
+  --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+
+  /* ---- Common Transitions ---- */
+  --transition-fast: var(--duration-150) var(--ease-out);
+  --transition-normal: var(--duration-200) var(--ease-out);
+  --transition-slow: var(--duration-300) var(--ease-out);
+  --transition-colors: color var(--duration-200) var(--ease-out),
+                       background-color var(--duration-200) var(--ease-out),
+                       border-color var(--duration-200) var(--ease-out);
+  --transition-transform: transform var(--duration-200) var(--ease-out);
+  --transition-all: all var(--duration-200) var(--ease-out);
+}
+
+/* ===========================================
+   9. Z-INDEX TOKENS
+   =========================================== */
+:root {
+  --z-base: 0;
+  --z-dropdown: 10;
+  --z-sticky: 20;
+  --z-fixed: 30;
+  --z-modal-backdrop: 40;
+  --z-modal: 50;
+  --z-popover: 60;
+  --z-tooltip: 70;
+  --z-toast: 80;
+  --z-max: 9999;
+}
+
+/* ===========================================
+   10. ANIMATION KEYFRAMES
+   =========================================== */
+
+/* Fade In */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* Fade In Up */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Pulse Glow */
+@keyframes pulseGlow {
+  0%, 100% {
+    box-shadow: var(--shadow-glow-sm);
+  }
+  50% {
+    box-shadow: var(--shadow-glow);
+  }
+}
+
+/* Steam Rise (for coffee cup) */
+@keyframes steamRise {
+  0%, 100% {
+    opacity: 0.3;
+    transform: translateY(0) scale(1);
+  }
+  50% {
+    opacity: 0.8;
+    transform: translateY(-8px) scale(1.1);
+  }
+}
+
+/* Sprite Animation (4 frames) */
+@keyframes sprite4 {
+  from { background-position: 0 0; }
+  to { background-position: -128px 0; }
+}
+
+/* Bounce */
+@keyframes bounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-4px);
+  }
+}
+
+/* Spin */
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* ===========================================
+   11. ANIMATION UTILITIES
+   =========================================== */
+:root {
+  --animate-fade-in: fadeIn var(--duration-300) var(--ease-out) forwards;
+  --animate-fade-in-up: fadeInUp var(--duration-300) var(--ease-out) forwards;
+  --animate-pulse-glow: pulseGlow 2s var(--ease-in-out) infinite;
+  --animate-steam: steamRise 2s var(--ease-in-out) infinite;
+  --animate-bounce: bounce 1s var(--ease-in-out) infinite;
+  --animate-spin: spin 1s var(--ease-linear) infinite;
+}
+
+/* ===========================================
+   12. BREAKPOINT REFERENCES (for JS/media queries)
+   =========================================== */
+:root {
+  --breakpoint-sm: 640px;
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 1024px;
+  --breakpoint-xl: 1280px;
+  --breakpoint-2xl: 1536px;
+}
+
+/* ===========================================
+   13. COMPONENT-SPECIFIC TOKENS
+   =========================================== */
+:root {
+  /* ---- Navigation ---- */
+  --nav-height: 64px;
+  --nav-height-mobile: 56px;
+
+  /* ---- Cards ---- */
+  --card-padding: var(--space-4);
+  --card-padding-lg: var(--space-6);
+  --card-border-width: 2px;
+  --card-gap: var(--space-4);
+
+  /* ---- Buttons ---- */
+  --btn-padding-x: var(--space-4);
+  --btn-padding-y: var(--space-2);
+  --btn-font-size: var(--text-sm);
+  --btn-border-width: 2px;
+
+  /* ---- Inputs ---- */
+  --input-padding-x: var(--space-3);
+  --input-padding-y: var(--space-2);
+  --input-border-width: 2px;
+
+  /* ---- Tags ---- */
+  --tag-padding-x: var(--space-2);
+  --tag-padding-y: var(--space-1);
+  --tag-font-size: var(--text-xs);
+
+  /* ---- Sidebar Widgets ---- */
+  --widget-padding: var(--space-4);
+  --widget-gap: var(--space-4);
+
+  /* ---- Post Grid ---- */
+  --grid-cols-mobile: 1;
+  --grid-cols-tablet: 2;
+  --grid-cols-desktop: 3;
+}

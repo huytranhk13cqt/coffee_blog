@@ -8,6 +8,8 @@ from typing import List, Optional
 from uuid import UUID
 
 from app.database import supabase
+from app.models.tag import TagResponse, TagCreate, TagUpdate
+from app.utils.slug import generate_slug
 
 
 class TagRepository:
@@ -89,6 +91,35 @@ class TagRepository:
         ).range(offset, offset + per_page - 1).execute()
         
         return response.data, response.count or 0
+    
+    def create(self, tag_data: TagCreate) -> dict:
+        """convert pydantic model -> dict"""
+        data = tag_data.model_dump(exclude_none=True)
+        
+        # Auto-generated slug if not provided
+        if not data.get("slug"):
+            data["slug"] = generate_slug(data["name"])
+        
+        response = supabase.table(self.TABLE_NAME).insert(data).execute()
+        
+        return response.data[0] if response.data else None
+
+    def update(self, tag_id: UUID, tag_data: TagUpdate) -> Optional[dict]:
+        data = tag_data.model_dump(exclude_none=True)
+        
+        if not data:
+            return self.get_by_id(tag_id)
+        
+        response = supabase.table(self.TABLE_NAME).update(data).eq("id",str(tag_id)).execute()
+        
+        return response.data[0] if response.data else None
+    
+    def delete(self, tag_id: UUID) -> bool:
+        
+        response = supabase.table(self.TABLE_NAME).delete().eq("id",str(tag_id)).execute()
+        
+        return len(response.data) > 0
+        
 
 
 # Singleton instance

@@ -10,6 +10,7 @@ from datetime import datetime
 
 from app.database import supabase
 from app.models import CategoryResponse, CategoryCreate, CategoryUpdate
+from app.utils.slug import generate_slug
 
 
 class CategoryRepository:
@@ -47,7 +48,7 @@ class CategoryRepository:
         
         # Auto-generated slug if not provided
         if not data.get("slug"):
-            data["slug"] = self._generate_slug(data["name"])
+            data["slug"] = generate_slug(data["name"])
         
         response = supabase.table(self.TABLE_NAME).insert(data).execute()
         
@@ -68,33 +69,6 @@ class CategoryRepository:
         response = supabase.table(self.TABLE_NAME).delete().eq("id",str(category_id)).execute()
         
         return len(response.data) > 0
-    
-    # ============================================
-    # Helper Methods
-    # ============================================
-    def _generate_slug(self, title: str) -> str:
-        """
-        Generate URL-friendly slug từ title.
-        Ví dụ: "Hello World!" -> "hello-world"
-        """
-        import re
-        
-        # Lowercase
-        slug = title.lower()
-        
-        # Replace spaces với dashes
-        slug = re.sub(r'\s+', '-', slug)
-        
-        # Remove special characters
-        slug = re.sub(r'[^a-z0-9\-]', '', slug)
-        
-        # Remove multiple dashes
-        slug = re.sub(r'-+', '-', slug)
-        
-        # Remove leading/trailing dashes
-        slug = slug.strip('-')
-        
-        return slug
     
 
 

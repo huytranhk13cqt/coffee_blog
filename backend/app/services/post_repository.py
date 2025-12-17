@@ -15,6 +15,7 @@ from datetime import datetime
 
 from app.database import supabase
 from app.models import PostResponse, PostCreate, PostUpdate
+from app.utils.slug import generate_slug
 
 class PostRepository:
     """
@@ -136,7 +137,7 @@ class PostRepository:
         
         # Auto-generate slug if not provided
         if not data.get("slug"):
-            data["slug"] = self._generate_slug(data["title"])
+            data["slug"] = generate_slug(data["title"])
         
         # Set published_at if publishing
         if data.get("status") == "published":
@@ -205,32 +206,7 @@ class PostRepository:
     
     # ============================================
     # Helper Methods
-    # ============================================
-    
-    def _generate_slug(self, title: str) -> str:
-        """
-        Generate URL-friendly slug từ title.
-        Ví dụ: "Hello World!" -> "hello-world"
-        """
-        import re
-        
-        # Lowercase
-        slug = title.lower()
-        
-        # Replace spaces với dashes
-        slug = re.sub(r'\s+', '-', slug)
-        
-        # Remove special characters
-        slug = re.sub(r'[^a-z0-9\-]', '', slug)
-        
-        # Remove multiple dashes
-        slug = re.sub(r'-+', '-', slug)
-        
-        # Remove leading/trailing dashes
-        slug = slug.strip('-')
-        
-        return slug
-    
+    # ============================================    
     def get_post_with_tags(self, slug: str) -> Optional[dict]:
         """
         Lấy post với đầy đủ thông tin bao gồm tags.

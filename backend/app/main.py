@@ -24,8 +24,12 @@ from app.models import (
     CategoryResponse,
     CategoryCreate,
     CategoryUpdate,
+    TagCreate,
     TagResponse,
+    TagUpdate,
     ProjectResponse,
+    ProjectCreate,
+    ProjectUpdate,
 )
 
 from app.middlewares.auth import get_current_user
@@ -272,6 +276,29 @@ def get_posts_by_tag(
         "per_page": per_page
     }
 
+@app.post("/api/tags", status_code=201, response_model=TagResponse)
+def create_tag(tag_data: TagCreate, current_user=Depends(get_current_user)):
+    """Create a new tag. Requires authentication."""
+    tag = tag_repository.create(tag_data)
+    if not tag:
+        raise HTTPException(status_code=400, detail="Failed to create tag")
+    return tag
+
+@app.put("/api/tags/{tag_id}", response_model=TagResponse)
+def update_tag(tag_id: UUID, tag_data: TagUpdate, current_user=Depends(get_current_user)):
+    """Update an existing tag. Requires authentication."""
+    tag = tag_repository.update(tag_id, tag_data)
+    if not tag:
+        raise HTTPException(status_code=404, detail="Tag not found")
+    return tag
+
+@app.delete("/api/tags/{tag_id}", status_code=204)
+def delete_tag(tag_id: UUID, current_user=Depends(get_current_user)):
+    """Delete a tag. Requires authentication."""
+    success = tag_repository.delete(tag_id)
+    if not success:
+        raise HTTPException(status_code=404, detail="Tag not found")
+    return None
 
 # =============================================================================
 # Projects API Endpoints (Portfolio)
@@ -285,6 +312,37 @@ def get_projects():
     projects = project_repository.get_all()
     return projects
 
+@app.get("/api/projects/{project_id}", response_model=ProjectResponse)
+def get_project_by_id(project_id: UUID):            
+    """Get a single project by ID."""
+    project = project_repository.get_by_id(project_id)
+    if not project:
+        raise HTTPException(status_code=404, detail="Project not found")
+    return project
+
+@app.post("/api/projects", status_code=201, response_model=ProjectResponse)
+def create_project(project_data: ProjectCreate, current_user=Depends(get_current_user)):
+    """Create a new project. Requires authentication."""
+    project = project_repository.create(project_data)
+    if not project:
+        raise HTTPException(status_code=400, detail="Failed to create project")
+    return project
+
+@app.put("/api/projects/{project_id}", response_model=ProjectResponse)
+def update_project(project_id: UUID, project_data: ProjectUpdate, current_user=Depends(get_current_user)):
+    """Update an existing project. Requires authentication."""
+    project = project_repository.update(project_id, project_data)
+    if not project:
+        raise HTTPException(status_code=404, detail="Project not found")
+    return project
+
+@app.delete("/api/projects/{project_id}", status_code=204)
+def delete_project(project_id: UUID, current_user=Depends(get_current_user)):
+    """Delete a project. Requires authentication."""
+    success = project_repository.delete(project_id)
+    if not success:
+        raise HTTPException(status_code=404, detail="Project not found")
+    return None
 
 # =============================================================================
 # Gallery API Endpoints

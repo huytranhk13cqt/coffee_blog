@@ -19,10 +19,12 @@ from app.models.category import (
 from app.models.tag import (
     TagResponse,
     TagCreate,
+    TagUpdate,
 )
 from app.models.project import (
     ProjectResponse,
     ProjectCreate,
+    ProjectUpdate,
 )
 
 __all__ = [
@@ -39,7 +41,9 @@ __all__ = [
     # Tag models
     "TagResponse",
     "TagCreate",
+    "TagUpdate",
     # Project models
     "ProjectResponse",
     "ProjectCreate",
+    "ProjectUpdate",
 ]
