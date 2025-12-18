@@ -4,7 +4,7 @@
 > **Project**: Coffee's Personal Blog CMS
 > **Base URL**: `http://localhost:8000`
 > **Version**: 1.0
-> **Last Updated**: 16/12/2024
+> **Last Updated**: 18/12/2025
 
 ---
 
@@ -71,6 +71,7 @@ Authorization: Bearer <access_token>
 | GET | `/api/tags/{slug}` | Get tag | ✅ |
 | GET | `/api/tags/{slug}/posts` | Get tag's posts | ✅ |
 | GET | `/api/projects` | List projects | ✅ |
+| GET | `/api/projects/{id}` | Get project by ID | ✅ |
 | GET | `/api/gallery` | Get gallery images | ✅ |
 
 ### Protected Endpoints (Auth Required)
@@ -85,12 +86,12 @@ Authorization: Bearer <access_token>
 | POST | `/api/categories` | Create category | ✅ |
 | PUT | `/api/categories/{id}` | Update category | ✅ |
 | DELETE | `/api/categories/{id}` | Delete category | ✅ |
-| POST | `/api/tags` | Create tag | ❌ |
-| PUT | `/api/tags/{id}` | Update tag | ❌ |
-| DELETE | `/api/tags/{id}` | Delete tag | ❌ |
-| POST | `/api/projects` | Create project | ❌ |
-| PUT | `/api/projects/{id}` | Update project | ❌ |
-| DELETE | `/api/projects/{id}` | Delete project | ❌ |
+| POST | `/api/tags` | Create tag | ✅ |
+| PUT | `/api/tags/{id}` | Update tag | ✅ |
+| DELETE | `/api/tags/{id}` | Delete tag | ✅ |
+| POST | `/api/projects` | Create project | ✅ |
+| PUT | `/api/projects/{id}` | Update project | ✅ |
+| DELETE | `/api/projects/{id}` | Delete project | ✅ |
 
 ---
 
@@ -499,15 +500,30 @@ Get posts with specific tag.
 
 ### POST /api/tags
 
-**Status**: ❌ Not Implemented (Protected)
+**Status**: ✅ Implemented (Protected)
 
 Create new tag.
+
+**Headers:**
+```
+Authorization: Bearer <access_token>
+Content-Type: application/json
+```
 
 **Request Body:**
 ```json
 {
   "name": "New Tag",
-  "slug": "new-tag"  // Optional
+  "slug": "new-tag"  // Optional, auto-generated from name
+}
+```
+
+**Response (201):**
+```json
+{
+  "id": "uuid",
+  "name": "New Tag",
+  "slug": "new-tag"
 }
 ```
 
@@ -515,17 +531,63 @@ Create new tag.
 
 ### PUT /api/tags/{id}
 
-**Status**: ❌ Not Implemented (Protected)
+**Status**: ✅ Implemented (Protected)
 
-Update tag.
+Update an existing tag.
+
+**Headers:**
+```
+Authorization: Bearer <access_token>
+Content-Type: application/json
+```
+
+**Request Body (partial update allowed):**
+```json
+{
+  "name": "Updated Tag Name"
+}
+```
+
+**Response (200):**
+```json
+{
+  "id": "uuid",
+  "name": "Updated Tag Name",
+  "slug": "updated-tag-name"
+}
+```
+
+**Error (404):**
+```json
+{
+  "detail": "Tag not found"
+}
+```
 
 ---
 
 ### DELETE /api/tags/{id}
 
-**Status**: ❌ Not Implemented (Protected)
+**Status**: ✅ Implemented (Protected)
 
-Delete tag.
+Delete a tag.
+
+**Headers:**
+```
+Authorization: Bearer <access_token>
+```
+
+**Response (204):**
+```
+No content
+```
+
+**Error (404):**
+```json
+{
+  "detail": "Tag not found"
+}
+```
 
 ---
 
@@ -556,27 +618,144 @@ List all portfolio projects.
 
 ---
 
+### GET /api/projects/{id}
+
+**Status**: ✅ Implemented
+
+Get a single project by ID.
+
+**Request:**
+```
+GET /api/projects/550e8400-e29b-41d4-a716-446655440000
+```
+
+**Response (200):**
+```json
+{
+  "id": "uuid",
+  "title": "Coffee Blog CMS",
+  "description": "Personal blog project",
+  "thumbnail_url": "https://...",
+  "tech_stack": ["React", "FastAPI", "PostgreSQL"],
+  "demo_url": "https://...",
+  "github_url": "https://...",
+  "sort_order": 1,
+  "created_at": "2024-12-16T10:00:00Z"
+}
+```
+
+**Error (404):**
+```json
+{
+  "detail": "Project not found"
+}
+```
+
+---
+
 ### POST /api/projects
 
-**Status**: ❌ Not Implemented (Protected)
+**Status**: ✅ Implemented (Protected)
 
-Create new project.
+Create a new project.
+
+**Headers:**
+```
+Authorization: Bearer <access_token>
+Content-Type: application/json
+```
+
+**Request Body:**
+```json
+{
+  "title": "New Project",
+  "description": "Project description",
+  "thumbnail_url": "https://...",
+  "tech_stack": ["React", "Node.js"],
+  "demo_url": "https://demo.example.com",
+  "github_url": "https://github.com/user/repo",
+  "sort_order": 1
+}
+```
+
+**Response (201):**
+```json
+{
+  "id": "uuid",
+  "title": "New Project",
+  "description": "Project description",
+  "thumbnail_url": "https://...",
+  "tech_stack": ["React", "Node.js"],
+  "demo_url": "https://demo.example.com",
+  "github_url": "https://github.com/user/repo",
+  "sort_order": 1,
+  "created_at": "2024-12-18T10:00:00Z"
+}
+```
 
 ---
 
 ### PUT /api/projects/{id}
 
-**Status**: ❌ Not Implemented (Protected)
+**Status**: ✅ Implemented (Protected)
 
-Update project.
+Update an existing project.
+
+**Headers:**
+```
+Authorization: Bearer <access_token>
+Content-Type: application/json
+```
+
+**Request Body (partial update allowed):**
+```json
+{
+  "title": "Updated Project Title",
+  "tech_stack": ["React", "FastAPI", "PostgreSQL"]
+}
+```
+
+**Response (200):**
+```json
+{
+  "id": "uuid",
+  "title": "Updated Project Title",
+  "tech_stack": ["React", "FastAPI", "PostgreSQL"],
+  ...
+}
+```
+
+**Error (404):**
+```json
+{
+  "detail": "Project not found"
+}
+```
 
 ---
 
 ### DELETE /api/projects/{id}
 
-**Status**: ❌ Not Implemented (Protected)
+**Status**: ✅ Implemented (Protected)
 
-Delete project.
+Delete a project.
+
+**Headers:**
+```
+Authorization: Bearer <access_token>
+```
+
+**Response (204):**
+```
+No content
+```
+
+**Error (404):**
+```json
+{
+  "detail": "Project not found"
+}
+```
 
 ---
 
