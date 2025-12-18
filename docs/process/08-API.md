@@ -907,14 +907,55 @@ class CategoryUpdate(BaseModel):
     description: Optional[str] = None
 ```
 
-### TagCreate
+### TagCreate / TagUpdate
 
 ```python
 class TagCreate(BaseModel):
     name: str = Field(..., min_length=1, max_length=50)
     slug: Optional[str] = Field(None, max_length=50)
+
+class TagUpdate(BaseModel):
+    name: Optional[str] = Field(None, min_length=1, max_length=50)
+    slug: Optional[str] = Field(None, max_length=50)
+```
+
+### ProjectCreate / ProjectUpdate
+
+```python
+class ProjectCreate(BaseModel):
+    title: str = Field(..., min_length=1, max_length=255)
+    description: Optional[str] = None
+    thumbnail_url: Optional[str] = None
+    tech_stack: Optional[List[str]] = None
+    demo_url: Optional[str] = None
+    github_url: Optional[str] = None
+    sort_order: Optional[int] = None
+
+class ProjectUpdate(BaseModel):
+    title: Optional[str] = Field(None, min_length=1, max_length=255)
+    description: Optional[str] = None
+    thumbnail_url: Optional[str] = None
+    tech_stack: Optional[List[str]] = None
+    demo_url: Optional[str] = None
+    github_url: Optional[str] = None
+    sort_order: Optional[int] = None
 ```
 
 ---
 
-*This document describes the API contract. Update status as endpoints are implemented.*
+## 12. Implementation Status Summary
+
+| Resource | GET (List) | GET (Single) | POST | PUT | DELETE |
+|----------|------------|--------------|------|-----|--------|
+| Posts | ✅ | ✅ | ✅ | ✅ | ✅ |
+| Categories | ✅ | ✅ | ✅ | ✅ | ✅ |
+| Tags | ✅ | ✅ | ✅ | ✅ | ✅ |
+| Projects | ✅ | ✅ | ✅ | ✅ | ✅ |
+| Gallery | ✅ | N/A | N/A | N/A | N/A |
+| Auth | N/A | ❌ | ❌ | N/A | N/A |
+
+**Backend CRUD: 100% Complete** (except Auth endpoints)
+
+---
+
+*This document describes the API contract. Last updated: 18/12/2025*
